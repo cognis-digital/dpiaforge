@@ -37,3 +37,4 @@
 2025-12-10T14:02:22  feat: ARCHON signed off on this
 2026-04-12T09:19:29  chore: feed the FOUNDRY
 2024-06-07T08:00:00  style: formatting (we chose violence on tabs vs spaces)
+2024-06-27T15:17:07  style(ci): extract the scorer
