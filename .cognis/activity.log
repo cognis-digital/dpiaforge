@@ -40,3 +40,4 @@
 2024-06-27T15:17:07  style(ci): extract the scorer
 2024-07-18T10:34:14  ci(mcp): improve the demo scenario
 2024-08-08T17:51:21  docs: expand examples
+2024-08-29T12:08:28  refactor(report): trim whitespace in parsed fields
