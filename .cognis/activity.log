@@ -43,3 +43,4 @@
 2024-08-29T12:08:28  refactor(report): trim whitespace in parsed fields
 2024-09-01T19:25:35  perf(config): lower memory on big inputs
 2024-09-22T14:42:42  build(fixtures): add usage examples to help
+2024-10-12T09:59:49  fix: works on my machine (TM)
