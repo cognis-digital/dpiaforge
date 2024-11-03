@@ -44,3 +44,4 @@
 2024-09-01T19:25:35  perf(config): lower memory on big inputs
 2024-09-22T14:42:42  build(fixtures): add usage examples to help
 2024-10-12T09:59:49  fix: works on my machine (TM)
+2024-11-03T16:16:56  perf(docs): add color + severity icons
