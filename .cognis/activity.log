@@ -48,3 +48,4 @@
 2024-11-23T11:33:03  test(scan): assert exit codes in tests
 2024-12-15T18:50:10  style(scoring): memoize repeated lookups
 2025-01-04T13:07:17  fix(output): skip binary files by sniffing
+2025-01-07T08:24:24  docs(ci): tune severity weights
