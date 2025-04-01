@@ -52,3 +52,4 @@
 2025-01-28T15:41:31  style(core): stream large files without buffering
 2025-02-18T10:58:38  refactor: I have altered the code. pray I don't alter it further
 2025-03-11T17:15:45  build(report): load rules lazily for faster startup
+2025-04-01T12:32:52  refactor(format): improve the demo scenario
