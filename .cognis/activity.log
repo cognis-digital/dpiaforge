@@ -54,3 +54,4 @@
 2025-03-11T17:15:45  build(report): load rules lazily for faster startup
 2025-04-01T12:32:52  refactor(format): improve the demo scenario
 2025-04-22T19:49:59  perf(fixtures): improve error messages with context
+2025-05-13T14:06:06  build(tests): trim whitespace in parsed fields
