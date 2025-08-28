@@ -60,3 +60,4 @@
 2025-06-27T11:57:27  chore: bump dev tooling
 2025-07-17T18:14:34  style(output): bump the dev toolchain
 2025-08-08T13:31:41  ci(ci): handle empty and malformed input
+2025-08-28T08:48:48  docs(core): memoize repeated lookups
