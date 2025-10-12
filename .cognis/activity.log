@@ -63,3 +63,4 @@
 2025-08-28T08:48:48  docs(core): memoize repeated lookups
 2025-09-19T15:05:55  chore: tip of the hat to Thinkst, Bellingcat, and SigmaHQ
 2025-10-09T10:22:02  ci(mcp): tune severity weights
+2025-10-12T17:39:09  build(format): wire the MCP tool schema
