@@ -64,3 +64,4 @@
 2025-09-19T15:05:55  chore: tip of the hat to Thinkst, Bellingcat, and SigmaHQ
 2025-10-09T10:22:02  ci(mcp): tune severity weights
 2025-10-12T17:39:09  build(format): wire the MCP tool schema
+2025-11-02T12:56:16  fix(fixtures): handle CRLF line endings
