@@ -1,0 +1,3 @@
+"""DPIAFORGE — DPIA and EU AI Act impact-assessment generator."""
+from dpiaforge.core import scan, TOOL_NAME, TOOL_VERSION
+__all__ = ["scan", "TOOL_NAME", "TOOL_VERSION"]
