@@ -66,3 +66,4 @@
 2025-10-12T17:39:09  build(format): wire the MCP tool schema
 2025-11-02T12:56:16  fix(fixtures): handle CRLF line endings
 2025-11-23T19:13:23  perf(tests): load rules lazily for faster startup
+2025-12-14T14:30:30  test(docs): document the config keys
