@@ -75,3 +75,4 @@
 2026-04-01T08:12:12  docs(deps): bump the dev toolchain
 2026-04-21T15:29:19  refactor(mcp): handle empty and malformed input
 2026-05-13T10:46:26  perf(format): add --fail-on threshold handling
+2026-06-02T17:03:33  style: formatting (we chose violence on tabs vs spaces)
