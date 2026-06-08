@@ -1,0 +1,21 @@
+{
+  "name": "TalentRank resume-screening AI",
+  "system_name": "TalentRank v2",
+  "is_ai_system": true,
+  "role": "provider",
+  "data_subjects": 250000,
+  "flags": {
+    "evaluation_scoring": true,
+    "automated_decision": true,
+    "large_scale": true,
+    "vulnerable_subjects": true,
+    "employment": true,
+    "interacts_with_humans": true
+  },
+  "mitigations": [
+    "Human-in-the-loop review of every rejection",
+    "Bias testing across protected attributes each quarter",
+    "Data minimisation: only job-relevant fields ingested",
+    "Applicant transparency notice + appeal channel"
+  ]
+}
