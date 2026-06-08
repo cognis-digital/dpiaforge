@@ -1,0 +1,9 @@
+services:
+  dpiaforge:
+    build: .
+    image: cognis/dpiaforge:local
+    restart: unless-stopped
+    ports: ["8000:8000"]
+    environment:
+      - COGNIS_LOG_LEVEL=info
+    volumes: ["./data:/data"]

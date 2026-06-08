@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: dpiaforge, labels: { app: dpiaforge } }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: dpiaforge } }
+  template:
+    metadata: { labels: { app: dpiaforge } }
+    spec:
+      containers:
+        - name: dpiaforge
+          image: ghcr.io/cognis-digital/dpiaforge:latest
+          ports: [{ containerPort: 8000 }]
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits: { cpu: "500m", memory: "256Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: dpiaforge }
+spec:
+  selector: { app: dpiaforge }
+  ports: [{ port: 80, targetPort: 8000 }]
