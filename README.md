@@ -36,9 +36,10 @@ AI governance wave
 <a name="features"></a>
 ## Features
 
-- ✅ Todo
-- ✅ Fixme
-- ✅ Xxx
+- ✅ Dpia Threshold
+- ✅ Classify Ai Act Tier
+- ✅ Risk Score
+- ✅ Assess
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
