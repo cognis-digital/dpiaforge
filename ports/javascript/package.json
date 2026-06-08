@@ -1,0 +1,10 @@
+{
+  "name": "@cognis/dpiaforge",
+  "version": "0.2.0",
+  "description": "JavaScript port of dpiaforge (Cognis Neural Suite)",
+  "bin": {
+    "dpiaforge": "index.js"
+  },
+  "license": "LicenseRef-COCL-1.0",
+  "type": "module"
+}
