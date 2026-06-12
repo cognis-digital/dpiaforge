@@ -16,7 +16,7 @@
 </div>
 
 ```bash
-pip install cognis-dpiaforge
+pip install "git+https://github.com/cognis-digital/dpiaforge.git"
 dpiaforge scan .            # → prioritized findings in seconds
 ```
 
@@ -49,7 +49,7 @@ AI governance wave
 ## Quick start
 
 ```bash
-pip install cognis-dpiaforge
+pip install "git+https://github.com/cognis-digital/dpiaforge.git"
 dpiaforge --version
 dpiaforge scan .                       # scan current project
 dpiaforge scan . --format json         # machine-readable
