@@ -20,6 +20,12 @@ pip install "git+https://github.com/cognis-digital/dpiaforge.git"
 dpiaforge scan .            # → prioritized findings in seconds
 ```
 
+<!-- cognis:layman:start -->
+## What is this?
+
+dpiaforge is a command-line tool that checks whether your AI system or data-processing project triggers legal obligations under two major EU regulations: GDPR (which requires a privacy impact assessment for risky projects) and the EU AI Act (which bans or tightly restricts certain uses of AI). You describe your project in a simple JSON file — what it does, who it affects, what safeguards you have — and dpiaforge instantly tells you whether a formal Data Protection Impact Assessment is required, which EU AI Act risk tier you fall into, and exactly what compliance steps you must take before launching. It is aimed at developers, product managers, and compliance teams who need a fast, offline, scriptable answer rather than hiring a consultant for every new feature.
+<!-- cognis:layman:end -->
+
 ## Contents
 
 - [Why dpiaforge?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
@@ -46,6 +52,42 @@ AI governance wave
 <div align="right"><a href="#top">↑ back to top</a></div>
 
 <a name="quick-start"></a>
+<!-- cognis:install:start -->
+## Install
+
+`dpiaforge` is source-available (not published to PyPI) — every method below installs
+straight from GitHub. Pick whichever you prefer; the one-line scripts auto-detect
+the best tool available on your machine.
+
+**One-liner (Linux / macOS):**
+```sh
+curl -fsSL https://raw.githubusercontent.com/cognis-digital/dpiaforge/HEAD/install.sh | sh
+```
+
+**One-liner (Windows PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/cognis-digital/dpiaforge/HEAD/install.ps1 | iex
+```
+
+**Or install manually — any one of:**
+```sh
+pipx install "git+https://github.com/cognis-digital/dpiaforge.git"     # isolated (recommended)
+uv tool install "git+https://github.com/cognis-digital/dpiaforge.git"  # uv
+pip install "git+https://github.com/cognis-digital/dpiaforge.git"      # pip
+```
+
+**From source:**
+```sh
+git clone https://github.com/cognis-digital/dpiaforge.git
+cd dpiaforge && pip install .
+```
+
+Then run:
+```sh
+dpiaforge --help
+```
+<!-- cognis:install:end -->
+
 ## Quick start
 
 ```bash
