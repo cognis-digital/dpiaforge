@@ -34,3 +34,6 @@ dpiaforge = "dpiaforge.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["dpiaforge"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
