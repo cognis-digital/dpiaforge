@@ -81,7 +81,9 @@ def _truthy(value: Any) -> bool:
 
 def _flags(activity: Dict[str, Any]) -> Dict[str, bool]:
     """Normalise the input's flag dict (case/spacing-insensitive keys)."""
-    raw = activity.get("flags", {}) or {}
+    raw = activity.get("flags", {})
+    if not isinstance(raw, dict):
+        raw = {}
     out = {}
     for k, v in raw.items():
         out[str(k).strip().lower()] = _truthy(v)
@@ -198,7 +200,13 @@ def risk_score(activity: Dict[str, Any], dpia: Dict[str, Any], ai_tier: Dict[str
     }
     inherent += tier_weight.get(ai_tier["tier"], 0)
 
-    subjects = int(activity.get("data_subjects", 0) or 0)
+    raw_subjects = activity.get("data_subjects", 0)
+    try:
+        subjects = int(raw_subjects) if raw_subjects is not None else 0
+        if subjects < 0:
+            subjects = 0
+    except (ValueError, TypeError):
+        subjects = 0
     if subjects >= 1_000_000:
         inherent += 15
     elif subjects >= 100_000:
@@ -208,7 +216,9 @@ def risk_score(activity: Dict[str, Any], dpia: Dict[str, Any], ai_tier: Dict[str
 
     inherent = min(inherent, 100)
 
-    measures = activity.get("mitigations", []) or []
+    measures = activity.get("mitigations", [])
+    if not isinstance(measures, (list, tuple)):
+        measures = []
     # Each implemented safeguard reduces residual risk (diminishing, capped).
     reduction = min(len(measures) * 7, 60)
     if ai_tier["tier"] == "PROHIBITED":
@@ -251,10 +261,20 @@ def _recommendations(dpia, ai_tier, score) -> List[str]:
 
 
 def assess(activity: Dict[str, Any]) -> Dict[str, Any]:
-    """Run the full assessment pipeline and return a structured report."""
+    """Run the full assessment pipeline and return a structured report.
+
+    Raises:
+        ValueError: if *activity* is not a dict or contains structurally invalid values.
+    """
     if not isinstance(activity, dict):
-        raise ValueError("activity must be a JSON object")
-    name = activity.get("name") or activity.get("system_name") or "unnamed activity"
+        raise ValueError("activity must be a JSON object (dict), got: "
+                         f"{type(activity).__name__}")
+    if not activity:
+        raise ValueError("activity must not be empty — supply at least a 'name' field")
+    name_raw = activity.get("name") or activity.get("system_name")
+    if name_raw is not None and not isinstance(name_raw, str):
+        raise ValueError("'name' must be a string")
+    name = str(name_raw).strip() if name_raw else "unnamed activity"
 
     dpia = dpia_threshold(activity)
     ai_tier = classify_ai_act_tier(activity)

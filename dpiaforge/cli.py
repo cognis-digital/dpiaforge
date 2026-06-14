@@ -12,11 +12,26 @@ from .core import assess
 
 def _load(path: Optional[str]) -> Dict[str, Any]:
     if path in (None, "-"):
-        data = sys.stdin.read()
+        try:
+            data = sys.stdin.read()
+        except OSError as exc:
+            raise OSError(f"could not read stdin: {exc}") from exc
     else:
-        with open(path, "r", encoding="utf-8") as fh:
-            data = fh.read()
-    return json.loads(data)
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                data = fh.read()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"file not found: {path}")
+        except OSError as exc:
+            raise OSError(f"could not open '{path}': {exc}") from exc
+    if not data.strip():
+        raise json.JSONDecodeError("input is empty", "", 0)
+    parsed = json.loads(data)
+    if not isinstance(parsed, dict):
+        raise json.JSONDecodeError(
+            f"expected a JSON object ({{...}}), got {type(parsed).__name__}", data, 0
+        )
+    return parsed
 
 
 def _print_table(report: Dict[str, Any]) -> None:
@@ -80,6 +95,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.command == "assess":
         try:
             activity = _load(args.input)
+        except FileNotFoundError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
         except (OSError, json.JSONDecodeError) as exc:
             print(f"error: could not read activity JSON: {exc}", file=sys.stderr)
             return 1

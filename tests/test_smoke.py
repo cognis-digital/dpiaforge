@@ -160,8 +160,135 @@ class TestCli(unittest.TestCase):
         code, _ = self._capture([])
         self.assertEqual(code, 2)
 
-    def test_bad_path_returns_1(self):
+    def test_bad_path_returns_2(self):
         code = main(["assess", "/no/such/file.json"])
+        self.assertEqual(code, 2)
+
+
+class TestHardenedEdgeCases(unittest.TestCase):
+    """Tests for hardened error paths and edge cases added during robustness pass."""
+
+    # ------------------------------------------------------------------
+    # core.assess — structural validation
+    # ------------------------------------------------------------------
+
+    def test_assess_empty_dict_raises(self):
+        """An empty dict must raise ValueError, not crash silently."""
+        with self.assertRaises(ValueError):
+            assess({})
+
+    def test_assess_list_raises(self):
+        """A JSON array at the top level must raise ValueError."""
+        with self.assertRaises(ValueError):
+            assess(["item1", "item2"])
+
+    def test_assess_flags_not_dict_tolerated(self):
+        """If 'flags' is not a dict (e.g. a string), the engine should not raise."""
+        activity = {"name": "broken flags", "flags": "should_be_a_dict"}
+        report = assess(activity)
+        self.assertIn("dpia", report)
+        self.assertEqual(report["dpia"]["criteria_met"], 0)
+
+    def test_assess_data_subjects_string_tolerated(self):
+        """A non-numeric data_subjects value must be treated as 0, not raise."""
+        activity = {"name": "bad subjects", "data_subjects": "many", "flags": {}}
+        report = assess(activity)
+        self.assertIsInstance(report["risk"]["inherent"], int)
+
+    def test_assess_negative_data_subjects_treated_as_zero(self):
+        """Negative data_subjects must not produce negative inherent scores."""
+        activity = {"name": "neg subjects", "data_subjects": -50000, "flags": {}}
+        report = assess(activity)
+        self.assertGreaterEqual(report["risk"]["inherent"], 0)
+
+    def test_assess_mitigations_not_list_tolerated(self):
+        """If 'mitigations' is a string instead of a list, engine should not raise."""
+        activity = {"name": "bad mitigations", "mitigations": "pen-tested", "flags": {}}
+        report = assess(activity)
+        # Should treat it as zero mitigations (no crash)
+        self.assertEqual(report["risk"]["mitigations_counted"], 0)
+
+    # ------------------------------------------------------------------
+    # CLI — malformed and missing-file paths
+    # ------------------------------------------------------------------
+
+    def setUp(self):
+        self._tmp_files: list = []
+
+    def tearDown(self):
+        for p in self._tmp_files:
+            if os.path.exists(p):
+                os.remove(p)
+
+    def _capture(self, argv):
+        buf = io.StringIO()
+        old = sys.stdout
+        sys.stdout = buf
+        try:
+            code = main(argv)
+        finally:
+            sys.stdout = old
+        return code, buf.getvalue()
+
+    def _write_tmp(self, name: str, content: str) -> str:
+        p = os.path.join(os.path.dirname(__file__), name)
+        with open(p, "w", encoding="utf-8") as fh:
+            fh.write(content)
+        self._tmp_files.append(p)
+        return p
+
+    def test_malformed_json_returns_1(self):
+        """A file with invalid JSON must exit 1 with an error message on stderr."""
+        path = self._write_tmp("_tmp_bad.json", "{not valid json}")
+        err_buf = io.StringIO()
+        old_err = sys.stderr
+        sys.stderr = err_buf
+        try:
+            code, _ = self._capture(["assess", path])
+        finally:
+            sys.stderr = old_err
+        self.assertEqual(code, 1)
+        self.assertIn("error", err_buf.getvalue().lower())
+
+    def test_json_array_returns_1(self):
+        """A JSON array (not object) must exit 1 with a clear error."""
+        path = self._write_tmp("_tmp_array.json", '["not", "an", "object"]')
+        err_buf = io.StringIO()
+        old_err = sys.stderr
+        sys.stderr = err_buf
+        try:
+            code, _ = self._capture(["assess", path])
+        finally:
+            sys.stderr = old_err
+        self.assertEqual(code, 1)
+
+    def test_empty_file_returns_1(self):
+        """An empty file must exit 1 with a clear error, not crash."""
+        path = self._write_tmp("_tmp_empty.json", "")
+        err_buf = io.StringIO()
+        old_err = sys.stderr
+        sys.stderr = err_buf
+        try:
+            code, _ = self._capture(["assess", path])
+        finally:
+            sys.stderr = old_err
+        self.assertEqual(code, 1)
+
+    def test_missing_file_returns_2(self):
+        """A non-existent file path must exit 2 (file-not-found)."""
+        code = main(["assess", "/no/such/path/activity.json"])
+        self.assertEqual(code, 2)
+
+    def test_empty_activity_returns_1(self):
+        """An empty JSON object {} must exit 1 (no fields to assess)."""
+        path = self._write_tmp("_tmp_emptyobj.json", "{}")
+        err_buf = io.StringIO()
+        old_err = sys.stderr
+        sys.stderr = err_buf
+        try:
+            code, _ = self._capture(["assess", path])
+        finally:
+            sys.stderr = old_err
         self.assertEqual(code, 1)
 
 
