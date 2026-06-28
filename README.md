@@ -42,6 +42,61 @@ dpiaforge scan .            # → prioritized findings in seconds
 
 
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ dpiaforge-emit --version
+dpiaforge 0.1.0
+```
+
+```console
+$ dpiaforge-emit --help
+usage: dpiaforge [-h] [--version] [--format {table,json}] {assess} ...
+
+DPIA & EU AI Act impact-assessment generator (offline, stdlib-only).
+
+positional arguments:
+  {assess}
+    assess              run full DPIA + AI Act assessment on an activity JSON
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --format {table,json}
+                        output format (default: table)
+```
+
+> Blocks above are real `dpiaforge` output — reproduce them from a clone.
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{
+"findings": [
+    {
+        "id": "1234567890",
+        "title": "Suspicious Network Traffic",
+        "description": "Anomalous network traffic detected from IP 192.168.1.100.",
+        "created_by": "John Doe",
+        "created_at": "2023-02-15T14:30:00Z"
+    },
+    {
+        "id": "2345678901",
+        "title": "Malware Detection",
+        "description": "Malware detected on system with IP 192.168.1.101.",
+        "created_by": "Jane Smith",
+        "created_at": "2023-02-16T10:45:00Z"
+    }
+]
+}
+```
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 1. **Install** the CLI:

@@ -1,0 +1,15 @@
+$ dpiaforge-emit --help
+
+usage: dpiaforge [-h] [--version] [--format {table,json}] {assess} ...
+
+DPIA & EU AI Act impact-assessment generator (offline, stdlib-only).
+
+positional arguments:
+  {assess}
+    assess              run full DPIA + AI Act assessment on an activity JSON
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --format {table,json}
+                        output format (default: table)
